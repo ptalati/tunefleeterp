@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>TuneFleet ERP</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+    <link type="text/css" href="css/jquery-ui.css" rel="stylesheet" />
+    <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet" />
+    <link type="text/css" href="css/loading-bar.min.css" rel="stylesheet" />
+    <link type="text/css" href="css/ngDialog.min.css" rel="stylesheet" />
+    <link type="text/css" href="css/ngDialog-theme-default.min.css" rel="stylesheet"/>
+    <link type="text/css" href="css/jquery.mmenu.all.css" rel="stylesheet" />
+    <link type="text/css" href="css/style.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/moment.min.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/angular-animate.min.js"></script>
+    <script type="text/javascript" src="js/angular-route.min.js"></script>
+    <script type="text/javascript" src="js/angular-resource.min.js"></script>
+    <script type="text/javascript" src="js/angular-ui-router.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script type="text/javascript" src="js/chart.js"></script>
+    <script type="text/javascript" src="js/moment.min.js"></script>
+    <script type="text/javascript" src="js/loading-bar.min.js"></script>
+    <script type="text/javascript" src="js/ngDialog.min.js"></script>
+    <script type="text/javascript" src="js/jquery.mmenu.all.min.js"></script>
+    <script type="text/javascript" src="js/holder.min.js"></script>
+    <script type="text/javascript" src="js/directives/ui.datepicker.js"></script>
+    <script type="text/javascript" src="js/directives/loading.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/controllers/login.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body ng-app="tuneFleetStore">
+    <div class="m-app-loading" ng-animate-children>
+        <div id="loading-bar-spinner"><div class="spinner"><img src="images/logo.png"> Loading...</div></div>
+    </div>
+    <!-- END: App-Loading Screen. -->
+
+    <div id="wrapper" ng-controller="TuneFleetController">
+        <nav class="navbar navbar-inverse navbar-fixed-top" ng-show="showMenu">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">TuneFleet</a>
+                    
+                    <!--<a href="#menu">+</a>-->
+                    <a href="#menu" class="navbar-toggle" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                </div>
+
+                <!-- The menu -->
+                <nav id="menu">
+                    <ul>
+                        <li><a ui-sref="account" ng-show="loggedIn">My Account</a></li>
+                        <li><a ui-sref="help">Help</a></li>
+                        <li><a ui-sref="logout" ng-show="loggedIn">Logout {{user.Name}}</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </nav>
+        
+        <div class="row login-logo" ng-hide="showMenu">
+        	<div class="col-md-12 text-center"><a href="#"><img src="images/logo-large.png"></a></div>
+        </div>
+
+        <div id="main" class="container {{showMenu ? '' : 'notoppadding'}}">
+            <div ui-view></div>
+        </div>
+    </div>
+
+    <script src="cordova.js"></script>
+    <script type="text/javascript" src="js/geolocation.js"></script>
+    <script type="text/javascript" src="js/notification.js"></script>
+    <script type="text/javascript">
+        document.addEventListener("deviceready", onDeviceReady, false);
+
+        function onDeviceReady() {
+            console.log(navigator.notification);
+
+            // onSuccess Callback
+            // This method accepts a Position object, which contains the
+            // current GPS coordinates
+            //
+            var onSuccess = function (position) {
+                var message = 'Latitude: ' + position.coords.latitude + '\n' +
+                      'Longitude: ' + position.coords.longitude + '\n' +
+                      'Altitude: ' + position.coords.altitude + '\n' +
+                      'Accuracy: ' + position.coords.accuracy + '\n' +
+                      'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '\n' +
+                      'Heading: ' + position.coords.heading + '\n' +
+                      'Speed: ' + position.coords.speed + '\n' +
+                      'Timestamp: ' + position.timestamp + '\n';
+
+                //navigator.notification.alert(message);
+                //navigator.notification.beep(3);
+                console.log(message);
+            };
+
+            // onError Callback receives a PositionError object
+            //
+            function onError(error) {
+                navigator.notification.alert('code: ' + error.code + '\n' +
+                      'message: ' + error.message + '\n');
+            }
+
+            navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        }
+
+        jQuery(document).ready(function ($) {
+            $("#menu").mmenu({
+                "extensions": [
+                  "theme-dark"
+                ],
+                "counters": true,
+                "navbars": [
+                   {
+                       "position": "bottom",
+                       "content": [
+                          "<a class='fa fa-envelope' href='#/'></a>",
+                          "<a class='fa fa-twitter' href='#/'></a>",
+                          "<a class='fa fa-facebook' href='#/'></a>"
+                       ]
+                   }
+                ],
+                "offCanvas": {
+				   "position": "right"
+				}
+            });
+        });
+    </script>
+</body>
+</html>

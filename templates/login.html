@@ -1,0 +1,22 @@
+<div class="login">
+    <div class="alert alert-danger" role="alert" ng-show="error.Status">{{error.Message}}</div>
+    <div class="alert alert-success" role="alert" ng-show="success.Status">{{success.Message}}</div>
+
+    <form name="loginForm" class="loginForm form-container" ng-submit="loginForm.$valid && loginUser(login)" ng-hide="success.Status">
+        <div class="form-group">
+            <label for="email">Email<span class="red">*</span>:</label>
+            <input type="email" class="form-control" id="email" ng-model="login.Email" ng-required="true" placeholder="Email" />
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password<span class="red">*</span>:</label>
+            <input type="password" class="form-control" id="password" ng-model="login.Password" ng-required="true" placeholder="Password" />
+        </div>
+        
+        <br />
+
+        <input type="submit" class="btn btn-submit btn-block" value="Sign In" />
+    </form><br/>
+
+    <p class="text-center"><a ui-sref="forgotpassword" class="forgotpassword" ng-hide="success.Status">Forgot password?</a></p>
+</div>
